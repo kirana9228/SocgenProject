@@ -51,13 +51,12 @@ public class ItemController {
 	// update item rest api
 	
 	@PutMapping("/items/{id}")
-	public ResponseEntity<Item> updateEmployee(@PathVariable Long id, @RequestBody Item itemDetails){
+	public ResponseEntity<Item> updateEmployee(@PathVariable Long id, @RequestBody Map<String,String> load){
 		Item item = itemRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Item not exist with id :" + id));
 		
-		item.setItemName(itemDetails.getItemName());
-		item.setQuantity(itemDetails.getQuantity());
-		item.setCost(itemDetails.getCost());
+
+		item.setQuantity(Long.parseLong(load.get("Quantity")));
 		
 		Item updatedEmployee = itemRepository.save(item);
 		return ResponseEntity.ok(updatedEmployee);
